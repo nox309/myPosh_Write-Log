@@ -4,17 +4,17 @@
 .SYNOPSIS
     <Providing a log function in Powershell>
 .DESCRIPTION
-    <Provides a log function which stores a log under $env:SystemDrive\tmp\myPosh_Log, this function can be called from other scripts.
-    as status level 'Information', 'Warning', 'Error' and 'Debug' can be used.
-    If the parameter "-console $true" is passed the corresponding message will also be printed on the console and colored according to the status level.>
+    <Provides a log function which stores a log under $env:SystemDrive\tmp\myPosh_Log, this function can be called by other scripts.
+    Status levels can be 'information', 'warning', 'error' and 'debug'.
+    If the parameter "-console $true" is passed, the corresponding message is also printed on the console and colored according to the status level. This module works both standalone and as part of the myPosh project>
 .OUTPUTS
     <Output to e.g. the following file C:\tmp\myPosh_Log\20230209_logfile.txt or on the console "20230209-21:34:42 | Error | Test message".>
 .FUNCTIONALITY
-    <Takes information in a script and stores it with time stemple in a log file in addition, the -console $true parameter can also be used to display output in the console >
+    <Captures information in a script and stores it with a timestamp in a log file. Additionally, the -console $true parameter can be used to display the output on the console. The contents of variables can also be passed. >
 .EXAMPLE
-    Write-Log -Message "Test Nachricht" -Severity Error -console $true
+    Write-Log -Message "Test Message" -Severity Error -console $true
 .NOTES
-    Author: nox309
+    Author: S
     Email: support@inselmann.it
     Git: https://github.com/nox309
     DateCreated: 2022/12/23
