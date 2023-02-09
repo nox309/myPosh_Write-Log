@@ -25,14 +25,15 @@ $logpath = "$env:SystemDrive\tmp\myPosh_Log\"
 $log = $logpath + $filename
 
 if(!(Test-Path  $logpath)) 
-	{
-        mkdir $logpath
-	}
+{
+    mkdir $logpath
+}
 if(!(Test-Path  $log))
-    {
-        "Timestamp | Severity | Message" | Out-File -FilePath $log -Append -Encoding utf8
-        "$(get-date -Format yyyyMMdd-HH:mm:ss) | Information | Log started" | Out-File -FilePath $log -Append -Encoding utf8
-    }
+{
+    "Timestamp | Severity | Message" | Out-File -FilePath $log -Append -Encoding utf8
+    "$(get-date -Format yyyyMMdd-HH:mm:ss) | Information | Log started" | Out-File -FilePath $log -Append -Encoding utf8
+}
+
 
 function Write-Log {
     [CmdletBinding()]
