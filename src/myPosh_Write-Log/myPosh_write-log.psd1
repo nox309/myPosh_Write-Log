@@ -12,7 +12,7 @@
 RootModule = 'myPosh_write-log.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.2.0'
+ModuleVersion = '1.2.1'
 
 # Supported PSEditions
 CompatiblePSEditions = 'Desktop', 'Core'
@@ -30,7 +30,7 @@ CompanyName = ' '
 Copyright = '(c) 2023 Torben Inselmann. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'Powershell log function for extended logs in txt form and optionally with output on the console'
+Description = 'Provides a log function which stores a log under $env:SystemDrive\tmp\myPosh_Log, this function can be called by other scripts. Status levels can be information, warning, error and debug. If the parameter "-console $true" is passed, the corresponding message is also printed on the console and colored according to the status level. This module works both standalone and as part of the myPosh project'
 
 # Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '5.1'
