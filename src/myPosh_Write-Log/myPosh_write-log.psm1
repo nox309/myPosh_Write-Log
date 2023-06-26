@@ -73,6 +73,6 @@ function Write-Log {
         Write-Host -ForegroundColor $color "$Time | $Severity | $Message"
     }
 
-    "$Time | $Severity | $Message" | Out-File -FilePath $log -Append -Encoding utf8
+    "$Time | $Severity | $env:username | $Message" | Out-File -FilePath $log -Append -Encoding utf8
 
 }
