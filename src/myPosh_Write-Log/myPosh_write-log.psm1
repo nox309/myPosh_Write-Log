@@ -14,26 +14,29 @@
 .EXAMPLE
     Write-Log -Message "Test Message" -Severity Error -console $true
 .NOTES
-    Author: S
+    Author: Torben Inselmann
     Email: support@inselmann.it
     Git: https://github.com/nox309
     DateCreated: 2022/12/23
-    #>
+#>
 $date = (get-date -Format yyyyMMdd)
 $filename = $date + "_logfile.txt"
 $logpath = "$env:SystemDrive\tmp\myPosh_Log\"
 $log = $logpath + $filename
 
-if(!(Test-Path  $logpath)) 
-{
-    mkdir $logpath
+# Fehlerbehandlung für Verzeichnis- und Dateierstellung
+try {
+    if (!(Test-Path $logpath)) {
+        mkdir $logpath -ErrorAction Stop
+    }
+    if (!(Test-Path $log)) {
+        "Timestamp | Severity | Username | Message" | Out-File -FilePath $log -Append -Encoding utf8
+        "$(get-date -Format yyyyMMdd-HH:mm:ss) | Information | $env:username | Log started" | Out-File -FilePath $log -Append -Encoding utf8
+    }
+} catch {
+    Write-Error "Fehler beim Erstellen des Log-Verzeichnisses oder der Datei: $_"
+    return
 }
-if(!(Test-Path  $log))
-{
-    "Timestamp | Severity | Message" | Out-File -FilePath $log -Append -Encoding utf8
-    "$(get-date -Format yyyyMMdd-HH:mm:ss) | Information | Log started" | Out-File -FilePath $log -Append -Encoding utf8
-}
-
 
 function Write-Log {
     [CmdletBinding()]
@@ -42,37 +45,37 @@ function Write-Log {
         [ValidateNotNullOrEmpty()]
         [string]$Message,
 
-        [parameter(Mandatory=$false)]
-        [bool]$console, 
+        [Parameter(Mandatory=$false)]
+        [bool]$console = $false,  # Standardwert hinzugefügt
 
         [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
         [ValidateSet('Information','Warning','Error','Debug')]
-        [string]$Severity = 'Information'
+        [string]$Severity = 'Information',
+
+        [Parameter(Mandatory=$false)]
+        [string]$CustomLogPath  # Optionaler Parameter für benutzerdefinierten Log-Pfad
     )
+
+    # Log-Pfad überschreiben, falls angegeben
+    if ($CustomLogPath) {
+        $log = Join-Path -Path $CustomLogPath -ChildPath $filename
+    }
 
     $time = (get-date -Format yyyyMMdd-HH:mm:ss)
 
+    # Farben in einer Hashtable definieren
+    $severityColors = @{
+        "Information" = "Gray"
+        "Warning"     = "Yellow"
+        "Error"       = "Red"
+        "Debug"       = "Green"
+    }
+
     if ($console) {
-        if ($Severity -eq "Information") {
-            $color = "Gray"
-        }
-
-        if ($Severity -eq "Warning") {
-            $color = "Yellow"
-        }
-
-        if ($Severity -eq "Error") {
-            $color = "Red"
-        }
-
-        if ($Severity -eq "Debug") {
-            $color = "Green"
-        }
-
+        $color = $severityColors[$Severity]
         Write-Host -ForegroundColor $color "$Time | $Severity | $Message"
     }
 
     "$Time | $Severity | $env:username | $Message" | Out-File -FilePath $log -Append -Encoding utf8
-
 }
