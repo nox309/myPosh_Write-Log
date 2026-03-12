@@ -27,7 +27,7 @@ Author = 'Torben Inselmann'
 CompanyName = ' '
 
 # Copyright statement for this module
-Copyright = '(c) 2023 Torben Inselmann. All rights reserved.'
+Copyright = '(c) 2026 Torben Inselmann. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Provides a log function which stores a log under $env:SystemDrive\tmp\myPosh_Log, this function can be called by other scripts. Status levels can be information, warning, error and debug. If the parameter "-console $true" is passed, the corresponding message is also printed on the console and colored according to the status level. This module works both standalone and as part of the myPosh project'
