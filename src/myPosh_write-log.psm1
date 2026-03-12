@@ -69,8 +69,20 @@ function Write-Log {
     # Override the log path if a custom path is provided
     if ($CustomLogPath) {
         $log = Join-Path -Path $CustomLogPath -ChildPath $filename
+		try {
+			if (!(Test-Path $CustomLogPath)) {
+				mkdir $CustomLogPath -ErrorAction Stop
+			}
+			if (!(Test-Path $log)) {
+				"Timestamp | Severity | Username | Message" | Out-File -FilePath $log -Append -Encoding utf8
+				"$(get-date -Format yyyyMMdd-HH:mm:ss) | Information | $env:username | Log started" | Out-File -FilePath $log -Append -Encoding utf8
+			}
+		} catch {
+			Write-Error "Error creating the log directory or file: $_"
+			return
+		}
     }
-
+	
     # Get the current timestamp
     $time = (get-date -Format yyyyMMdd-HH:mm:ss)
 
