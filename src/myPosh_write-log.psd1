@@ -12,7 +12,7 @@
 RootModule = 'myPosh_write-log.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.2.3'
+ModuleVersion = '1.2.4'
 
 # Supported PSEditions
 CompatiblePSEditions = 'Desktop', 'Core'
@@ -130,5 +130,6 @@ HelpInfoURI = 'https://github.com/nox309/myPosh_Write-Log/issues'
 # DefaultCommandPrefix = ''
 
 }
+
 
 
