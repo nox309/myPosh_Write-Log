@@ -64,7 +64,7 @@ function Write-Log {
         [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
         [ValidateSet('Information','Warning','Error','Debug')]
-        [string]$Severity = 'Information',
+        [string]$Severity,
 
         # Optional custom log path
         [Parameter(Mandatory=$false)]
@@ -105,5 +105,9 @@ function Write-Log {
     }
 
     # Write the log message to the log file
-    "$Time | $Severity | $env:username | $Message" | Out-File -FilePath $log -Append -Encoding utf8
+    try {
+        "$Time | $Severity | $env:username | $Message" | Out-File -FilePath $log -Append -Encoding utf8 -ErrorAction Stop
+    } catch {
+        Write-Error "Error writing to log file '$log': $_"
+    }
 }
