@@ -23,24 +23,29 @@
     DateCreated: 2022/12/23
 #>
 
-# Define the current date and log file name
-$date = (get-date -Format yyyyMMdd)
-$filename = $date + "_logfile.txt"
-$logpath = "$env:SystemDrive\tmp\myPosh_Log\"
-$log = $logpath + $filename
+$script:DefaultLogPath = Join-Path -Path $env:SystemDrive -ChildPath 'tmp\myPosh_Log'
 
-# Ensure the log directory and file exist, with error handling
-try {
-    if (!(Test-Path $logpath)) {
-        mkdir $logpath -ErrorAction Stop
+function Initialize-LogTarget {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$DirectoryPath,
+
+        [Parameter(Mandatory = $true)]
+        [string]$FilePath
+    )
+
+    try {
+        if (-not (Test-Path -Path $DirectoryPath)) {
+            New-Item -Path $DirectoryPath -ItemType Directory -Force -ErrorAction Stop | Out-Null
+        }
+
+        if (-not (Test-Path -Path $FilePath)) {
+            'Timestamp | Severity | Username | Message' | Out-File -FilePath $FilePath -Append -Encoding utf8 -ErrorAction Stop
+            "$(Get-Date -Format yyyyMMdd-HH:mm:ss) | Information | $env:username | Log started" | Out-File -FilePath $FilePath -Append -Encoding utf8 -ErrorAction Stop
+        }
+    } catch {
+        throw "Error creating the log directory or file: $_"
     }
-    if (!(Test-Path $log)) {
-        "Timestamp | Severity | Username | Message" | Out-File -FilePath $log -Append -Encoding utf8
-        "$(get-date -Format yyyyMMdd-HH:mm:ss) | Information | $env:username | Log started" | Out-File -FilePath $log -Append -Encoding utf8
-    }
-} catch {
-    Write-Error "Error creating the log directory or file: $_"
-    return
 }
 
 function Write-Log {
@@ -66,25 +71,24 @@ function Write-Log {
         [string]$CustomLogPath
     )
 
-    # Override the log path if a custom path is provided
-    if ($CustomLogPath) {
-        $log = Join-Path -Path $CustomLogPath -ChildPath $filename
-		try {
-			if (!(Test-Path $CustomLogPath)) {
-				mkdir $CustomLogPath -ErrorAction Stop
-			}
-			if (!(Test-Path $log)) {
-				"Timestamp | Severity | Username | Message" | Out-File -FilePath $log -Append -Encoding utf8
-				"$(get-date -Format yyyyMMdd-HH:mm:ss) | Information | $env:username | Log started" | Out-File -FilePath $log -Append -Encoding utf8
-			}
-		} catch {
-			Write-Error "Error creating the log directory or file: $_"
-			return
-		}
-    }
-	
     # Get the current timestamp
-    $time = (get-date -Format yyyyMMdd-HH:mm:ss)
+    $time = Get-Date -Format yyyyMMdd-HH:mm:ss
+    $date = Get-Date -Format yyyyMMdd
+    $filename = "${date}_logfile.txt"
+
+    $logPath = $script:DefaultLogPath
+    if ($CustomLogPath) {
+        $logPath = $CustomLogPath
+    }
+
+    $log = Join-Path -Path $logPath -ChildPath $filename
+
+    try {
+        Initialize-LogTarget -DirectoryPath $logPath -FilePath $log
+    } catch {
+        Write-Error $_
+        return
+    }
 
     # Define colors for each severity level
     $severityColors = @{
