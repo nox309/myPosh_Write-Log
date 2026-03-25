@@ -12,11 +12,14 @@
 - Fehlerbehandlung für das Erstellen von Verzeichnissen und Dateien integriert.
 - Benutzerdefinierter Log-Pfad kann mit dem Parameter `-CustomLogPath` angegeben werden.
 - Der Parameter `-Severity` ist verpflichtend.
+- Kann die installierte Modulversion mit der PowerShell Gallery vergleichen und auf Wunsch aktualisieren.
 
 ### Beispiel
 ```powershell
 Write-Log -Message "Testnachricht" -Severity Error -console $true
 Write-Log -Message "Testnachricht" -Severity Information -CustomLogPath "D:\Logs"
+Get-myPoshWriteLogUpdate
+Get-myPoshWriteLogUpdate -Update
 ```
 
 ### Installation
@@ -49,11 +52,14 @@ Write-Log -Message "Testnachricht" -Severity Information -CustomLogPath "D:\Logs
 - Includes error handling for directory and file creation.
 - Allows specifying a custom log path using the `-CustomLogPath` parameter.
 - The `-Severity` parameter is mandatory.
+- Can compare the installed module version with the PowerShell Gallery and optionally update it.
 
 ### Example
 ```powershell
 Write-Log -Message "Test message" -Severity Error -console $true
 Write-Log -Message "Test message" -Severity Information -CustomLogPath "D:\Logs"
+Get-myPoshWriteLogUpdate
+Get-myPoshWriteLogUpdate -Update
 ```
 
 ### Installation

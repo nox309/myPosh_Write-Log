@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+### Added
+- Neue Funktion `Get-myPoshWriteLogUpdate` zum Pruefen der installierten Modulversion gegen PSGallery.
+- Optionale Aktualisierung der passenden `PowerShellGet`-Installation mit `-Update`.
+- Defensiver Hinweis beim Modul-Import, wenn fuer die aktive Installation ein Update verfuegbar ist.
+- Entwurfsdokument fuer die Update-Funktion unter `docs/Update-Funktion-Entwurf.md`.
+
+### Changed
+- README um Beispiele und Funktionsbeschreibung fuer die Update-Pruefung erweitert.
+- Manifest exportiert jetzt `Get-myPoshWriteLogUpdate`.
+
 ## [1.2.4] - 2026-03-12
 ### Changed
 - Initialisierung der Logdatei erfolgt erst beim Aufruf von `Write-Log` statt beim Modul-Import.

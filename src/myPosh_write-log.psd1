@@ -30,7 +30,7 @@ CompanyName = ' '
 Copyright = '(c) 2026 Torben Inselmann. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'Provides a log function which stores a log under $env:SystemDrive\tmp\myPosh_Log, this function can be called by other scripts. Status levels can be information, warning, error and debug. If the parameter "-console $true" is passed, the corresponding message is also printed on the console and colored according to the status level. This module works both standalone and as part of the myPosh project'
+Description = 'Provides a log function which stores a log under $env:SystemDrive\tmp\myPosh_Log, this function can be called by other scripts. Status levels can be information, warning, error and debug. If the parameter "-console $true" is passed, the corresponding message is also printed on the console and colored according to the status level. The module can also check for updates in PSGallery and update a PowerShellGet installation. This module works both standalone and as part of the myPosh project'
 
 # Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '5.1'
@@ -69,7 +69,7 @@ PowerShellVersion = '5.1'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Write-Log'
+FunctionsToExport = 'Write-Log', 'Get-myPoshWriteLogUpdate'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
